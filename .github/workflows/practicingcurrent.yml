@@ -7,18 +7,14 @@ on:
       - main
 
 jobs:
-  build:
+  build_Push-acr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2 
       - name: Docker build
-        run: docker build -t test .
-
-  Push_Image-ACR:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+        run: docker build -t thisonetypeofstoragedockerimage.azureecr.io/frontend:${{ github.run_id }} .
+        
       - name: Checkout code
         uses: actions/checkout@v2
       
