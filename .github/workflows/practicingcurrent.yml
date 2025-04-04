@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2 
       - name: Docker build
-        run: docker build -t thisonetypeofstoragedockerimage.azureecr.io/frontend:${{ github.run_id }} .
+        run: docker build -t thisonetypeofstoragingdockerimage.azureecr.io/frontend:${{ github.run_id }} .
         
       - name: Checkout code
         uses: actions/checkout@v2
