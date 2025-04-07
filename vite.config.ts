@@ -4,9 +4,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
-    allowedHosts: [
-      'conappuser01.wittydune-bd671c84.eastus.azurecontainerapps.io',
-    ],
+    allowedHosts: ['*'],
   },
   server: {
     // this ensures that the browser opens upon server start
