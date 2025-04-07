@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     allowedHosts: [
-      'practicecurrentcontainerapptest.orangestone-98956164.eastus.azurecontainerapps.io',
+      'conappuser01.wittydune-bd671c84.eastus.azurecontainerapps.io',
     ],
   },
   server: {
