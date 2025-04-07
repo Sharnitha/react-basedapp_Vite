@@ -6,7 +6,7 @@ on:
     branches:
       - main 
 
-jobs:
+jobs: 
   build_Push-acr:
     runs-on: ubuntu-latest
     steps:
