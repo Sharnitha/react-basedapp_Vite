@@ -16,7 +16,7 @@ jobs:
         run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
         
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v4.0.0 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+        uses: sonarsource/sonarcloud-github-action@v2 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
