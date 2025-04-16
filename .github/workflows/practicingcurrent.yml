@@ -15,10 +15,14 @@ jobs:
       - name: Docker build
         run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
         
-      - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-action@v2 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
-         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=Sharnitha-sonarcloud1
+            -Dsonar.organization=Sharnitha-sonarcloud1
       
       # - name: Docker build
       #   run: |
