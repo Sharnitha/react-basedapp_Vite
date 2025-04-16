@@ -14,9 +14,14 @@ jobs:
         uses: actions/checkout@v2 
       - name: Docker build
         run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
+        
+      - name: SonarQube Scan
+        uses: sonarsource/sonarcloud-github-action@v4.0.0 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+        env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
-      - name: Docker build
-        run: |
-          docker login thisonetypeofstoragingdockerimage.azurecr.io -u thisonetypeofstoragingdockerimage -p ${{secrets.pat}}
-          docker push thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }}  
+      # - name: Docker build
+      #   run: |
+      #     docker login thisonetypeofstoragingdockerimage.azurecr.io -u thisonetypeofstoragingdockerimage -p ${{secrets.pat}}
+      #     docker push thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }}  
      
