@@ -10,24 +10,33 @@ jobs:
   build_Push-acr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2 
-      - name: Docker build
-        run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
-      # - name: Run SonarCloud analysis for Vue using `sonar`
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # ---
+      # - name: Checkout code
+      #   uses: actions/checkout@v2 
+      # - name: Docker build
+      #   run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
+
+            # - name: Run SonarCloud analysis for Vue using `sonar`
       #   run: |
       #     npm install -g sonar
       #     sonar \
       #       -Dsonar.host.url=https://sonarcloud.io \
       #       -Dsonar.token=ac35b1a790aa492f9bbe0a1adcd52ea77ff4adb4
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=Vue3 app
-            -Dsonar.organization=Sharnitha-sonarcloud1
+      # - name: SonarCloud Scan
+      #   uses: SonarSource/sonarcloud-github-action@v2
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   with:
+      #     args: >
+      #       -Dsonar.projectKey=Vue3 app
+      #       -Dsonar.organization=Sharnitha-sonarcloud1
       
       # - name: Docker build
       #   run: |
