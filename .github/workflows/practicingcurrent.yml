@@ -7,7 +7,7 @@ on:
       - main
 
 jobs: 
-  build_Push-acr:
+  SonarCloud:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,11 +22,14 @@ jobs:
           args: >
             -Dsonar.projectKey=sharnitha-sonarcloud1_vue3-app
             -Dsonar.organization=sharnitha-sonarcloud1
-      # ---
-      # - name: Checkout code
-      #   uses: actions/checkout@v2 
-      # - name: Docker build
-      #   run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
+            
+  build_Push-acr:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v2 
+        - name: Docker build
+          run: docker build -t thisonetypeofstoragingdockerimage.azurecr.io/frontend:${{ github.run_id }} .
 
             # - name: Run SonarCloud analysis for Vue using `sonar`
       #   run: |
