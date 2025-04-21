@@ -17,6 +17,11 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          args: >
+            -Dsonar.projectKey=sharnitha-sonarcloud1_vue3-app
+            -Dsonar.organization=sharnitha-sonarcloud1
       # ---
       # - name: Checkout code
       #   uses: actions/checkout@v2 
