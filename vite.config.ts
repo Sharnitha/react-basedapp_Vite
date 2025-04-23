@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     allowedHosts: [
-      'cloudusershacontainerapps.wittydune-bd671c84.eastus.azurecontainerapps.io',
+      '*',
     ],
   },
   server: {
