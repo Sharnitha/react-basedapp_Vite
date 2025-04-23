@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     allowedHosts: [
       '*',
-    ],
+    ], 
   },
   server: {
     // this ensures that the browser opens upon server start
