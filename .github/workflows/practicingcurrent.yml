@@ -46,6 +46,7 @@ jobs:
         - name: Docker build
           run: |
             docker build --target dev -t Sharnithadockerimagstore.azurecr.io/frontend:${{ github.run_id }} .
+            trivy image --severity "HIGH,CRITICAL" --vuln-type "os,library" --exit-code "1" Sharnithadockerimagstore.azurecr.io/frontend:${{ github.run_id }}
             docker login Sharnithadockerimagstore.azurecr.io -u sharnithadockerimagstore -p ${{secrets.pat}}
             docker push Sharnithadockerimagstore.azurecr.io/frontend:${{ github.run_id }}  
           
