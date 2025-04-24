@@ -1,29 +1,25 @@
-# Stage 1: Build the application
-FROM node:22 AS build
- 
+# Stage 1: Build or Dev Serve
+FROM node:18 AS base
+
 WORKDIR /app
- 
-# Copy package.json and install dependencies
+
 COPY package*.json ./
 RUN npm install
- 
-# Copy the rest of the app
 COPY . .
- 
-# Set default environment to 'prod
- 
-# Based on the environment, run either build or serve
-RUN npm run build
- 
-# Stage 2: Use Nginx to serve the built application
-FROM nginx:alpine
- 
-# Copy the built app from the build stage (if prod environment)
+
+# Build Stage
+FROM base AS build
+ARG ENVIRONMENT=prod
+RUN if [ "$ENVIRONMENT" = "prod" ]; then npm run build; fi
+
+# Production stage with Nginx
+FROM nginx:alpine AS prod
 COPY --from=build /app/dist /usr/share/nginx/html
- 
-# Expose the port Nginx serves on
 EXPOSE 80
- 
-# Run Nginx to serve the app
 CMD ["nginx", "-g", "daemon off;"]
+
+# Development stage
+FROM base AS dev
+EXPOSE 5173
+CMD ["npm", "run", "serve"]
 
