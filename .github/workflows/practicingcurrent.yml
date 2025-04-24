@@ -46,7 +46,7 @@ jobs:
         - name: Docker build
           run: |
             docker build -t Sharnithadockerimagstore.azurecr.io/frontend:${{ github.run_id }} .
-            docker login Sharnithadockerimagstore.azurecr.io -u thisonetypeofstoragingdockerimage -p ${{secrets.pat}}
+            docker login Sharnithadockerimagstore.azurecr.io -u sharnithadockerimagstore -p ${{secrets.pat}}
             docker push Sharnithadockerimagstore.azurecr.io/frontend:${{ github.run_id }}  
           
 
