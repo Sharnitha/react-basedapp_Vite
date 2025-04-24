@@ -22,6 +22,8 @@ jobs:
           args: >
             -Dsonar.projectKey=sharnitha-sonarcloud1_vue3-app
             -Dsonar.organization=sharnitha-sonarcloud1
+            -Dsonar.pullrequest.branch=${{ github.head_ref }}
+            -Dsonar.pullrequest.base=main
             
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
