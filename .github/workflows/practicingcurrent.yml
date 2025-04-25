@@ -66,7 +66,7 @@ jobs:
           uses: actions/checkout@v2 
         - name: Docker build
           run: |
-            docker build --target dev -t containername021-cbh9d8fddwhgbthg.azurecr.io/frontend:${{ github.run_id }} .
+            docker build --target dev -t automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }} .
         # - name: Run Trivy scan
         #   uses: aquasecurity/trivy-action@master
         #   with:
@@ -78,8 +78,8 @@ jobs:
             
         - name: Docker build
           run: |
-            docker login containername021-cbh9d8fddwhgbthg.azurecr.io -u containername021 -p ${{secrets.pat}}
-            docker push containername021-cbh9d8fddwhgbthg.azurecr.io/frontend:${{ github.run_id }}  
+            docker login automatedselhosted-dkaef6a5cubzdaae.azurecr.io -u automatedselhosted -p ${{secrets.pat}}
+            docker push automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }}  
           
 
             # - name: Run SonarCloud analysis for Vue using `sonar`
