@@ -17,7 +17,7 @@ export default defineConfig({
       interval: 100,    // Adjust the polling interval if needed
     },
     host: true,          // Allow access from outside the container
-    port: 80,          // Match the port in your Docker setup
+    port: 3000,          // Match the port in your Docker setup
     strictPort: true,    // Ensure the port is not changed
   }
 });
