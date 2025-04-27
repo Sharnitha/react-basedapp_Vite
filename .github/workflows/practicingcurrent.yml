@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - selfhosted
 jobs: 
   set_environment:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
       #   run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
             
   build_Push-acr:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: set_environment
     environment: ${{ needs.set_environment.outputs.environment }}
     env:
@@ -76,10 +76,10 @@ jobs:
         #     ignore-unfixed: true
         #     severity: "CRITICAL,HIGH"
             
-        - name: Docker build
-          run: |
-            docker login automatedselhosted-dkaef6a5cubzdaae.azurecr.io -u automatedselhosted -p ${{secrets.pat}}
-            docker push automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }}  
+        # - name: Docker build
+        #   run: |
+        #     docker login automatedselhosted-dkaef6a5cubzdaae.azurecr.io -u automatedselhosted -p ${{secrets.pat}}
+        #     docker push automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }}  
           
 
             # - name: Run SonarCloud analysis for Vue using `sonar`
