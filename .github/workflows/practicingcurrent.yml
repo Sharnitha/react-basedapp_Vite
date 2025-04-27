@@ -20,7 +20,7 @@ jobs:
           elif [[ "$GITHUB_REF" =~ ^refs/heads/release/.* ]]; then
             echo "environment=PROD" >> "$GITHUB_ENV"
           else 
-            echo "environment=QA" >> "$GITHUB_ENV"
+            echo "environment=QA" >> "$GITHUB_ENV" 
           fi         
     outputs:
       environment: ${{ env.environment }}
