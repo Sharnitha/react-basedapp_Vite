@@ -100,8 +100,8 @@ jobs:
           uses: actions/checkout@v2 
         - name: execute permissions
           run: |
-            chown root:root /usr/bin/sudo
-            chmod 4755 /usr/bin/sudo
+            sudo chown root:root /usr/bin/sudo
+            sudo chmod 4755 /usr/bin/sudo
         - name: Set up Docker
           uses: docker/setup-docker-action@v4
           with:
