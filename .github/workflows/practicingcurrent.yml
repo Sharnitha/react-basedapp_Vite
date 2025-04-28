@@ -97,16 +97,7 @@ jobs:
       workspace: ${{ github.workspace }}
     steps:
         - name: Checkout code
-          uses: actions/checkout@v2 
-        - name: execute permissions
-          run: |
-            sudo chown root:root /usr/bin/sudo
-            sudo chmod 4755 /usr/bin/sudo
-        - name: Set up Docker
-          uses: docker/setup-docker-action@v4
-          with:
-            version: 20.10.17
-            
+          uses: actions/checkout@v2
         - name: Docker build
           run: |
             docker build --target prod -t sharnithaacr.azurecr.io/frontend:${{ github.run_id }} .
