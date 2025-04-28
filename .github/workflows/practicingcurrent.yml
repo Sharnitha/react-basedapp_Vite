@@ -24,6 +24,40 @@ jobs:
           fi         
     outputs:
       environment: ${{ env.environment }}
+
+  test-env:
+    runs-on: self-hosted  
+    needs: set_environment
+    environment: ${{ needs.set_environment.outputs.environment }}
+    env:
+      Environments: ${{ needs.set_environment.outputs.environment }}
+      workspace: ${{ github.workspace }}
+    steps:  
+      - name: Checkout code 
+        uses: actions/checkout@v2
+        
+      - name: Determine environment based on branch
+        id: set_env
+        run: |
+          sleep 30
+          echo Hello-world
+
+  test-env1:
+    runs-on: self-hosted  
+    needs: test-env
+    environment: ${{ needs.test-env.outputs.environment }}
+    env:
+      Environments: ${{ needs.test-env.outputs.environment }}
+      workspace: ${{ github.workspace }}
+    steps:  
+      - name: Checkout code 
+        uses: actions/checkout@v2
+        
+      - name: Determine environment based on branch
+        id: set_env
+        run: |
+          echo Hello-world1
+          
   # SonarCloud:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -56,10 +90,10 @@ jobs:
             
   build_Push-acr:
     runs-on: self-hosted
-    needs: set_environment
-    environment: ${{ needs.set_environment.outputs.environment }}
+    needs: test-env1
+    environment: ${{ needs.test-env1.outputs.environment }}
     env:
-      Environments: ${{ needs.set_environment.outputs.environment }}
+      Environments: ${{ needs.test-env1.outputs.environment }}
       workspace: ${{ github.workspace }}
     steps:
         - name: Checkout code
