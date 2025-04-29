@@ -6,25 +6,25 @@ on:
     branches:
       - main
 jobs: 
-  set_environment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  # set_environment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
         
-      - name: Determine environment based on branch
-        id: set_env
-        run: |
-          if [ "$GITHUB_REF" == "refs/heads/qa" ]; then
-            echo "environment=QA" >> "$GITHUB_ENV"
-          elif [[ "$GITHUB_REF" =~ ^refs/heads/release/.* ]]; then
-            echo "environment=PROD" >> "$GITHUB_ENV"
-          else 
-            echo "environment=QA" >> "$GITHUB_ENV"
-          fi         
-    outputs:
-      environment: ${{ env.environment }}
-  # SonarCloud:
+  #     - name: Determine environment based on branch
+  #       id: set_env
+  #       run: |
+  #         if [ "$GITHUB_REF" == "refs/heads/qa" ]; then
+  #           echo "environment=QA" >> "$GITHUB_ENV"
+  #         elif [[ "$GITHUB_REF" =~ ^refs/heads/release/.* ]]; then
+  #           echo "environment=PROD" >> "$GITHUB_ENV"
+  #         else 
+  #           echo "environment=QA" >> "$GITHUB_ENV"
+  #         fi         
+  #   outputs:
+  #     environment: ${{ env.environment }}
+  # # SonarCloud:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
@@ -55,18 +55,18 @@ jobs:
       #   run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
             
   build_Push-acr:
-    runs-on: ubuntu-latest
-    needs: set_environment
-    environment: ${{ needs.set_environment.outputs.environment }}
-    env:
-      Environments: ${{ needs.set_environment.outputs.environment }}
-      workspace: ${{ github.workspace }}
+    runs-on: self-hosted
+    # needs: set_environment
+    # environment: ${{ needs.set_environment.outputs.environment }}
+    # env:
+    #   Environments: ${{ needs.set_environment.outputs.environment }}
+    #   workspace: ${{ github.workspace }}
     steps:
         - name: Checkout code
           uses: actions/checkout@v2 
         - name: Docker build
           run: |
-            docker build --target prod -t automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }} .
+            docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
         # - name: Run Trivy scan
         #   uses: aquasecurity/trivy-action@master
         #   with:
@@ -78,8 +78,8 @@ jobs:
             
         - name: Docker build
           run: |
-            docker login automatedselhosted-dkaef6a5cubzdaae.azurecr.io -u automatedselhosted -p ${{secrets.pat}}
-            docker push automatedselhosted-dkaef6a5cubzdaae.azurecr.io/frontend:${{ github.run_id }}  
+            docker login azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+            docker push azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }}  
           
 
             # - name: Run SonarCloud analysis for Vue using `sonar`
