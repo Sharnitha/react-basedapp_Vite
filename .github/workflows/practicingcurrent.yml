@@ -61,7 +61,7 @@ jobs:
     # env:
     #   Environments: ${{ needs.set_environment.outputs.environment }}
     #   workspace: ${{ github.workspace }}
-    steps:
+    steps: 
         - name: Checkout code
           uses: actions/checkout@v2 
         - name: Docker build
