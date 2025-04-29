@@ -82,13 +82,14 @@ jobs:
             docker push azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} 
             
   Deploy-to-ACA:
+  
         runs-on: self-hosted
         needs: build_Push-acr
         steps:
           - name: Build and deploy Container App
             uses: azure/container-apps-deploy-action@v1
             with:
-              acrName: azurecontainerregistry1
+              acrName: azurecontainerregistry1 
               containerAppName: my-container-app
               resourceGroup: SharnithaRG
               imageToDeploy: azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }}
