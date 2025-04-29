@@ -86,12 +86,12 @@ jobs:
         runs-on: self-hosted
         needs: build_Push-acr
         steps:
-          - name: azure login
+          - name: azure login steps
             run:  |
                az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
                az containerapp update  -n testcontainerapp -g SharnithaRG --image azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }}
             
-          # - name: Build and deploy Container App
+          # - name: Build and deploy Container App 
           #   uses: azure/container-apps-deploy-action@v1
           #   with:
           #     acrName: azurecontainerregistry1 
