@@ -1,5 +1,5 @@
 # Stage 1: Build or Dev Serve
-FROM node:18 AS base
+FROM node:22 AS base
 
 WORKDIR /app
 
