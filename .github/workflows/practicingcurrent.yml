@@ -75,14 +75,18 @@ jobs:
     #       additional-denied-words: ''
         - name: Checkout code
           uses: actions/checkout@v2 
-        - name: Docker build
+          
+        - name: Docker build-qa
           run: |
-            if: github.ref == 'refs/heads/main'
-              echo "Running dev"
-              docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
-            else:
-              echo "Running prod"
-              docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+              if: github.ref == 'refs/heads/main'
+                echo "Running dev"
+                docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+                
+        - name: Docker build-prod
+          run: |
+              if: github.ref !== 'refs/heads/main'
+                echo "Running prod"
+                docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
         # - name: Run Trivy scan
         #   uses: aquasecurity/trivy-action@master
         #   with:
