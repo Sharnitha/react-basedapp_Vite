@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - testrelease/30-04-25
 jobs: 
   # set_environment:
   #   runs-on: ubuntu-latest 
