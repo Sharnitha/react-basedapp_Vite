@@ -62,22 +62,27 @@ jobs:
     #   Environments: ${{ needs.set_environment.outputs.environment }}
     #   workspace: ${{ github.workspace }}
     steps: 
-      - uses: trstringer/manual-approval@v1
-        timeout-minutes: 5
-        with:
-          secret: ${{ secrets.PAT }}
-          approvers: Sharnitha
-          minimum-approvals: 1
-          issue-title: "Deploying to qa env"
-          issue-body: "Please approve qa deny."
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
-      # - name: Checkout code
-      #     uses: actions/checkout@v2 
-      #   - name: Docker build
-      #     run: |
-      #       docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+    #   - uses: trstringer/manual-approval@v1
+    #     timeout-minutes: 5
+    #     with:
+    #       secret: ${{ secrets.PAT }}
+    #       approvers: Sharnitha
+    #       minimum-approvals: 1
+    #       issue-title: "Deploying to qa env"
+    #       issue-body: "Please approve qa deny."
+    #       exclude-workflow-initiator-as-approver: false
+    #       additional-approved-words: ''
+    #       additional-denied-words: ''
+        - name: Checkout code
+          uses: actions/checkout@v2 
+        - name: Docker build
+          run: |
+            if: github.ref == 'refs/heads/main'
+              echo "Running dev"
+              docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+            else:
+              echo "Running prod"
+              docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
         # - name: Run Trivy scan
         #   uses: aquasecurity/trivy-action@master
         #   with:
