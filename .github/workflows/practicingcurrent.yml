@@ -83,7 +83,7 @@ jobs:
                 docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
                 
         - name: Docker build-prod
-          if: github.ref !== 'refs/heads/main'
+          if: github.ref != 'refs/heads/main'
           run: |
                 echo "Running prod"
                 docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
