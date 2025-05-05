@@ -83,7 +83,7 @@ jobs:
                 docker build --target dev -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
                 
         - name: Docker build-prod
-          if: github.ref != 'refs/heads/main1'
+          if: github.ref == 'refs/heads/main1'
           run: |
                 echo "Running prod"
                 docker build --target prod -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
