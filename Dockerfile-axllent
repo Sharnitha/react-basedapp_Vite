@@ -1,0 +1,12 @@
+FROM axllent/mailpit:latest
+
+RUN mkdir data
+
+ENV MP_MAX_MESSAGES=500
+ENV MP_DATABASE="/data/mailpit.db"
+ENV MP_SMTP_AUTH_ACCEPT_ANY=1
+ENV MP_SMTP_AUTH_ALLOW_INSECURE=1
+
+# Expose the necessary ports for Mailpit Web UI and SMTP
+EXPOSE 8025 1025 
+ENTRYPOINT ["/mailpit"]
