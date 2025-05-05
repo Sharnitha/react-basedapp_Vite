@@ -55,7 +55,7 @@ jobs:
       #   run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
             
   build_Push-acr:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     # needs: set_environment
     # environment: ${{ needs.set_environment.outputs.environment }}
     # env:
@@ -80,13 +80,13 @@ jobs:
           if: github.ref == 'refs/heads/main','refs/heads/feature/*'
           run: |
                 echo "Running dev"
-                docker build --target dev -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+                docker build --target dev -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
                 
         - name: Docker build-prod
           if: github.ref != 'refs/heads/main'
           run: |
                 echo "Running prod"
-                docker build --target prod -t azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} .
+                docker build --target prod -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
         # - name: Run Trivy scan
         #   uses: aquasecurity/trivy-action@master
         #   with:
@@ -96,20 +96,19 @@ jobs:
         #     ignore-unfixed: true
         #     severity: "CRITICAL,HIGH"
             
-  #       - name: Docker build
-  #         run: |
-  #           docker login azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
-  #           docker push azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }} 
+        - name: Docker build
+          run: |
+            docker login sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+            docker push sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} 
             
-  # Deploy-to-ACA:
-  
-  #       runs-on: self-hosted
-  #       needs: build_Push-acr
-  #       steps:
-  #         - name: azure login steps
-  #           run:  |
-  #              az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
-  #              az containerapp update  -n containerapptesting -g SharnithaRG --image azurecontainerregistry1-f0esgpd4hreaf0c9.azurecr.io/frontend:${{ github.run_id }}
+  Deploy-to-ACA:
+        runs-on: self-hosted
+        needs: build_Push-acr
+        steps:
+          - name: azure login steps
+            run:  |
+               az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
+               az containerapp update  -n containerappsharnitha -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }}
             
           # - name: Build and deploy Container App 
           #   uses: azure/container-apps-deploy-action@v1
