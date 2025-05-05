@@ -100,15 +100,26 @@ jobs:
           run: |
             docker login sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
             docker push sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} 
+
+        - name: Docker build-axllent/mailpit
+          run: |
+            docker build -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }} --file Dockerfile-axllent .
+            docker login sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+            docker push sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }} 
             
   Deploy-to-ACA:
         runs-on: self-hosted
         needs: build_Push-acr
         steps:
-          - name: azure login steps
+          - name: Backend deployment
             run:  |
                az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
                az containerapp update  -n containerappsharnitha -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }}
+
+          - name: axllent deployment
+            run:  |
+               az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
+               az containerapp update  -n containerapp2 -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }}
             
           # - name: Build and deploy Container App 
           #   uses: azure/container-apps-deploy-action@v1
