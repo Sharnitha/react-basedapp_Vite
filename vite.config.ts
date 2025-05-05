@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     allowedHosts: [
-      'vue3containerapp.orangerock-e67073df.eastus.azurecontainerapps.io',
+      'containerappsharnitha.graybush-aad56c22.eastus.azurecontainerapps.io',
     ],
     open: false,            // Disable automatic browser opening
     watch: {
