@@ -2,9 +2,9 @@ name: Run Pipeline
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 jobs:  
   # set_environment:
   #   runs-on: ubuntu-latest 
@@ -109,14 +109,23 @@ jobs:
             docker login sharnitharegistry.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
             docker push sharnitharegistry.azurecr.io/axllent:${{ github.run_id }} 
             
-  # Deploy-to-ACA:
-  #       runs-on: self-hosted
-  #       needs: build_Push-acr
-  #       steps:
-  #         - name: Backend deployment
-  #           run:  |
-  #              az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
-  #              az containerapp update  -n containerappsharnitha -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }}
+  Deploy-to-ACA:
+        runs-on: self-hosted
+        needs: build_Push-acr
+        steps:
+          - name: Backend deployment
+            run:  |
+               az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
+               az containerapp update \
+                --name <your-container-app-name> \
+                --resource-group <your-resource-group> \
+                --ingress external \
+                --target-port 8025 \
+                --ports 8025 1025 \
+                --environment <your-environment-name> \
+                --cpu 0.5 \
+                --memory 1Gi
+
 
   #         - name: axllent deployment
   #           run:  |
