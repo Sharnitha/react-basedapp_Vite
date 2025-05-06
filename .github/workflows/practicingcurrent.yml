@@ -1,10 +1,10 @@
-name: Run Pipeline
+name: CI Pipeline
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 jobs:  
   # set_environment:
   #   runs-on: ubuntu-latest 
