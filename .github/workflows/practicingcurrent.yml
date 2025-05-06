@@ -2,9 +2,9 @@ name: Run Pipeline
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 jobs:  
   # set_environment:
   #   runs-on: ubuntu-latest 
@@ -74,13 +74,15 @@ jobs:
     #       additional-approved-words: ''
     #       additional-denied-words: ''
         - name: Checkout code
-          uses: actions/checkout@v2 
+          uses: actions/checkout@v4
           
-        - name: Docker build-qa
-          if: github.ref == 'refs/heads/main'
-          run: |
-                echo "Running dev"
-                docker build --target dev -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
+        # - name: Docker build-qa
+        #   if: github.ref == 'refs/heads/main'
+        #   run: |
+        #         echo "Running dev"
+        #         docker build -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} --file Dockerfile-axllent .
+          # docker build --target dev -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} .
+               # docker build -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} --file Dockerfile-axllent
                 
         # - name: Docker build-prod
         #   if: github.ref == 'refs/heads/main1'
@@ -96,30 +98,30 @@ jobs:
         #     ignore-unfixed: true
         #     severity: "CRITICAL,HIGH"
             
-        - name: Docker build
-          run: |
-            docker login sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
-            docker push sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }} 
+        # - name: Docker build
+        #   run: |
+        #     docker login sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+        #     docker push sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io/frontend:${{ github.run_id }} 
 
         - name: Docker build-axllent/mailpit
           run: |
-            docker build -t sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }} --file Dockerfile-axllent .
-            docker login sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
-            docker push sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }} 
+            docker build -t sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io/axllent:${{ github.run_id }} --file Dockerfile-axllent .
+            docker login sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+            docker push sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io/axllent:${{ github.run_id }} 
             
-  Deploy-to-ACA:
-        runs-on: self-hosted
-        needs: build_Push-acr
-        steps:
-          - name: Backend deployment
-            run:  |
-               az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
-               az containerapp update  -n containerappsharnitha -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }}
+  # Deploy-to-ACA:
+  #       runs-on: self-hosted
+  #       needs: build_Push-acr
+  #       steps:
+  #         - name: Backend deployment
+  #           run:  |
+  #              az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
+  #              az containerapp update  -n containerappsharnitha -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/frontend:${{ github.run_id }}
 
-          - name: axllent deployment
-            run:  |
-               az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
-               az containerapp update  -n containerapp2 -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }}
+  #         - name: axllent deployment
+  #           run:  |
+  #              az login --service-principal -u ${{secrets.APPID}} -p ${{secrets.SECRETID}} --tenant ${{secrets.TENANTID}}
+  #              az containerapp update  -n containerapp2 -g SharnithaRG --image sharnithacontainerre-gdfacvdrcjgaaqb9.azurecr.io/axllent:${{ github.run_id }}
             
           # - name: Build and deploy Container App 
           #   uses: azure/container-apps-deploy-action@v1
