@@ -105,9 +105,9 @@ jobs:
 
         - name: Docker build-axllent/mailpit
           run: |
-            docker build -t sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io/axllent:${{ github.run_id }} --file Dockerfile-axllent .
-            docker login sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
-            docker push sharnithacontainerr-hcdyd5ctaxg8aefb.azurecr.io/axllent:${{ github.run_id }} 
+            docker build -t sharnitharegistry.azurecr.io/axllent:${{ github.run_id }} --file Dockerfile-axllent .
+            docker login sharnitharegistry.azurecr.io -u ${{secrets.APPID}} -p ${{secrets.SECRETID}}
+            docker push sharnitharegistry.azurecr.io/axllent:${{ github.run_id }} 
             
   # Deploy-to-ACA:
   #       runs-on: self-hosted
